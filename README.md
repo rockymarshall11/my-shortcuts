@@ -1,1 +1,3 @@
 # my-shortcuts
+
+build
