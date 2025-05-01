@@ -1,16 +1,19 @@
 name: Build & Sign Jelly Shortcut
 
+# Trigger on jelly file pushes or manual runs
 on:
   push:
     paths:
       - '**/*.jelly'
   workflow_dispatch:
-      
+
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install Homebrew
         run: |
@@ -25,7 +28,7 @@ jobs:
 
       - name: Build Shortcuts
         run: |
-          mkdir output
+          mkdir -p output
           for f in *.jelly; do
             jelly "$f" --export --out "output/${f%.jelly}.shortcut"
           done
