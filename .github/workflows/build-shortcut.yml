@@ -1,0 +1,32 @@
+name: Build Jelly Shortcut
+
+on:
+  push:
+    paths:
+      - '**.jelly'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Homebrew
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+      - name: Install Jelly
+        run: |
+          brew tap jellycuts/formulae
+          brew install jelly
+      - name: Build Shortcut
+        run: |
+          mkdir output
+          for f in *.jelly; do
+            jelly "$f" --export --out "output/${f%.jelly}.shortcut"
+          done
+      - name: Upload shortcut
+        uses: actions/upload-artifact@v3
+        with:
+          name: shortcuts
+          path: output/*.shortcut
