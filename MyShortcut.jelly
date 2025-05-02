@@ -1,7 +1,7 @@
 import Shortcuts
 // ShortcutsVersion: 1092.6
 #Color: green
-#Icon: checkmark
+#Icon: shortcuts
 
 const NOTION_TOKEN = "secret_XXXXX" // your integration token
 const DATABASE_ID = "XXXXX" // your database ID
