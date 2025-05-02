@@ -1,4 +1,8 @@
-name: Build & Sign Jelly Shortcut
+name: Build & Commit Jelly Shortcut
+
+# so we can push back to the repo
+permissions:
+  contents: write
 
 on:
   workflow_dispatch:
@@ -21,11 +25,16 @@ jobs:
           mkdir -p output
           for f in *.jelly; do
             jelly "$f" --export --out "output/${f%.jelly}.shortcut"
-            shortcuts sign --mode anyone --input "output/${f%.jelly}.shortcut" --output "output/${f%.jelly}-signed.shortcut"
+            shortcuts sign \
+              --mode anyone \
+              --input "output/${f%.jelly}.shortcut" \
+              --output "output/${f%.jelly}-signed.shortcut"
           done
 
-      - name: Upload signed shortcut
-        uses: actions/upload-artifact@v2
-        with:
-          name: signed-shortcuts
-          path: output/*.shortcut
+      - name: Commit compiled shortcut
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/*-signed.shortcut
+          git commit -m "Add compiled shortcut [skip ci]" || echo "Nothing to commit"
+          git push
