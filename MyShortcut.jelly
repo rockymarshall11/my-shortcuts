@@ -3,12 +3,13 @@ import Shortcuts
 #Color: green
 #Icon: shortcuts
 
-# your integration token
+// your integration token
 const NOTION_TOKEN = "secret_XXXXX"
-# your database ID
+// your database ID
 const DATABASE_ID = "XXXXX"
 
-# Query Notion for pages where Done = false
+
+// Query Notion for pages where Done = false
 const queryResp = await Shortcuts.networkRequest({
   url: `https://api.notion.com/v1/databases/${DATABASE_ID}/query`,
   method: "POST",
