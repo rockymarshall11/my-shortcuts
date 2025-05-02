@@ -1,14 +1,14 @@
-import Shortcuts
+import Shortcuts 1092.6
 #Color: green
 #Icon: shortcuts
 
-;(async () => {
+(async () => {
   // Notion integration token
   const NOTION_TOKEN = "secret_XXXXX"
   // Notion database ID
   const DATABASE_ID = "XXXXX"
 
-  // 1) Query Notion for unchecked pages
+  // 1) Query Notion for pages where Done = false
   const queryResp = await Shortcuts.networkRequest({
     url: `https://api.notion.com/v1/databases/${DATABASE_ID}/query`,
     method: "POST",
